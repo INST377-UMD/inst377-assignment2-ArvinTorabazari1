@@ -87,13 +87,17 @@ async function bullOrBear() {
   topStocks.forEach(stock => {
     const row = document.createElement('tr');
 
-    const tickerRow = document.createElement('td');
-    tickerRow.textContent = stock.ticker; 
+    const tickerItem = document.createElement('td');
+    const tickerLink = document.createElement('a');
+    tickerLink.href = `https://finance.yahoo.com/quote/${stock.ticker}`;
+    tickerLink.target = "_blank";
+    tickerLink.textContent = stock.ticker;
+    tickerItem.appendChild(tickerLink);
 
-    const commentRow = document.createElement('td');
-    commentRow.textContent = stock.no_of_comments; 
+    const commentItem = document.createElement('td');
+    commentItem.textContent = stock.no_of_comments; 
 
-    const sentimentRow = document.createElement('td');
+    const sentimentItem = document.createElement('td');
     const sentimentImage = document.createElement('img');
     sentimentImage.width = 100;
     sentimentImage.height = 100;
@@ -101,15 +105,15 @@ async function bullOrBear() {
     if (stock.sentiment.toLowerCase() === 'bullish') {
       sentimentImage.src = 'bull.jpeg'; // Bull icon
       sentimentImage.alt = 'Bullish';
-      sentimentRow.appendChild(sentimentImage);
+      sentimentItem.appendChild(sentimentImage);
     } else if (stock.sentiment.toLowerCase() === 'bearish') {
       sentimentImage.src = 'bear.jpeg'; // Bear icon
       sentimentImage.alt = 'Bearish';
-      sentimentRow.appendChild(sentimentImage);
+      sentimentItem.appendChild(sentimentImage);
     }
-    row.appendChild(tickerRow);
-    row.appendChild(commentRow);
-    row.appendChild(sentimentRow);
+    row.appendChild(tickerItem);
+    row.appendChild(commentItem);
+    row.appendChild(sentimentItem);
 
     
     tableBody.appendChild(row);
