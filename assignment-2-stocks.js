@@ -1,6 +1,6 @@
 function loadStockAPI() {
   const rangeSelected = document.getElementById("dayRange").value;
-  const stockSelected = document.getElementById("stockTicker").value;
+  const stockSelected = document.getElementById("stockTicker").value.toUpperCase();
   
   
   console.log("Range Selected:", rangeSelected)
@@ -72,7 +72,7 @@ async function bullOrBear() {
   const formattedDate = new Date(todayEpoch * 1000).toISOString().split('T')[0];
   console.log("Formatted Date (yyyy-mm-dd):", formattedDate);
 
-  const result = await fetch(`https://tradestie.com/api/v1/apps/reddit?date=2022-04-03`)
+  const result = await fetch(`https://tradestie.com/api/v1/apps/reddit?date=${formattedDate}`)
     .then((response) => 
     response.json());
 
@@ -118,6 +118,52 @@ async function bullOrBear() {
     
     tableBody.appendChild(row);
   })
+}
+
+function turnOnListening() {
+  if (annyang) {
+      // Let's define a command.
+      const commands = {
+        'hello': () => { alert('Hello world!'); 
+          },
+        'change the color to *color':(color) => {
+          document.body.style.backgroundColor = color
+          },
+          'go to *page': (page) => {
+              page = page.toLowerCase();
+
+              const pages = {
+                  'home':'homepage.html',
+                  'dogs': 'dogs.html',
+                  'stocks': 'stocks.html'
+              };
+
+              const relocate =pages[page];
+              if (relocate) {
+                  window.location.href = relocate;
+              }
+          }, 
+          'lookup *company': (company) => {
+            document.getElementById("stockTicker").value = company.toUpperCase();
+            console.log("Lookup:", company);
+            populateChart();
+            
+          }
+
+      };
+    
+      // Add our commands to annyang
+      annyang.addCommands(commands);
+    
+      // Start listening.
+      annyang.start();
+}}
+
+function turnOffListening(){
+  //Stop Listening
+  if (annyang) {
+      annyang.abort();
+  }
 }
 
 
