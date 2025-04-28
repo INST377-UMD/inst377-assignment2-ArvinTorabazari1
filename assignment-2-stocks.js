@@ -61,25 +61,16 @@ async function populateChart() {
   });
 }
 async function bullOrBear() {
-  // Get todays date in milliseconds
-  const today = new Date();
+ 
 
-  // convert to seconds
-  const todayEpoch = Math.floor(today.getTime() / 1000);
-  console.log("Today's epoch:", todayEpoch)
-
-  // convert to ISO date for API
-  const formattedDate = new Date(todayEpoch * 1000).toISOString().split('T')[0];
-  console.log("Formatted Date (yyyy-mm-dd):", formattedDate);
-
-  const result = await fetch(`https://tradestie.com/api/v1/apps/reddit?date=${formattedDate}`)
+  const result = await fetch(`https://tradestie.com/api/v1/apps/reddit?date=2022-04-03`)
     .then((response) => 
     response.json());
 
   console.log("reddit stock", result); 
 
   const topStocks = result.slice(0, 5);
-  console.log("Top 5 Stocks", topStocks);
+  console.log("Top Stocks", topStocks);
 
   const tableBody = document.getElementById('bullishOrBearish').querySelector('tbody');
   tableBody.innerHTML = "";

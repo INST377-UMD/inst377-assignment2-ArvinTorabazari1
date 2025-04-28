@@ -2,7 +2,9 @@
     <head>
         <title>Dogs</title>
         <link rel ="stylesheet" href="assignment-2-styling.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js" defer></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js" defer></script>
+        <script src = "assignment-2-dogs.js" defer></script>
     </head>
     <body>
         <h1> INST377 - Dogs</h1>
@@ -17,6 +19,14 @@
         </nav>
 
         <h2>Dogs &#128054!</h2>
+        <div id="randomDogImages" style="width:612px; height:612px" data-simple-slider></div>
+        <div id="breedButtons"></div>
+
+        <div id="breedInfo">
+            <h2 id="breedName"></h2>
+            <p id="breedDescription"></p>
+        </div>
+
 
         <div id = "annyangLarger">
             <h2>In this web page there are options to Navigate using Audio!</h2>
