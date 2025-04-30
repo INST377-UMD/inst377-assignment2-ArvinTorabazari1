@@ -1,3 +1,6 @@
+const dogIDMapping = {}
+
+
 async function loadDogs() {
     const response = await fetch('https://dog.ceo/api/breeds/image/random/10');
     const dogImages= await response.json();
@@ -22,19 +25,22 @@ async function loadDogBreeds() {
     const breedButtons = document.getElementById('breedButtons')
     dogBreeds.forEach(breed => {
         const button = document.createElement('button')
-        button.textContent = breed.attributes.name; 
+        button.textContent = breed.attributes.name;
+        dogIDMapping[breed.attributes.name] = breed.id
         console.log("button", button.textContent);
         button.setAttribute("class", "button-1");
-        button.onclick = () => breedInfo(breed);
+        button.onclick = () => breedInfo(breed.id);
         breedButtons.appendChild(button)
     })
 }
 
-function breedInfo(breed) {
-    dogBreedName = breed.attributes.name
-    dogBreedDescription = breed.attributes.description
-    dogBreedMax = breed.attributes.life.max
-    dogBreedMin = breed.attributes.life.min
+async function breedInfo(breedid) {
+    const response = await fetch(`https://dogapi.dog/api/v2/breeds/${breedid}`)
+    const breedInfo = await response.json()
+    dogBreedName = breedInfo.data.attributes.name
+    dogBreedDescription = breedInfo.data.attributes.description
+    dogBreedMax = breedInfo.data.attributes.life.max
+    dogBreedMin = breedInfo.data.attributes.life.min
     document.getElementById('breedInfo').style.display = 'block';
     document.getElementById('breedName').innerHTML = ` Name: ${dogBreedName}`;
     document.getElementById('breedDescription').innerHTML = `<strong> Description: ${dogBreedDescription} </strong>`;
@@ -54,29 +60,32 @@ function turnOnListening() {
             },
             'go to *page': (page) => {
                 page = page.toLowerCase();
-  
+
                 const pages = {
                     'home':'homepage.html',
                     'dogs': 'dogs.html',
                     'stocks': 'stocks.html'
                 };
-  
+
                 const relocate =pages[page];
                 if (relocate) {
                     window.location.href = relocate;
                 }
+            }, 
+            'load *breed': (breed) => {
+                document.getElementsByClassName("button-1").value = breed;
+                console.log("load:", breed);
+                breedInfo(dogIDMapping[breed]);
+
             }
-              
-            }
-  
-        }
+        };
       
         // Add our commands to annyang
         annyang.addCommands(commands);
       
         // Start listening.
         annyang.start();
-  }
+}}
   
   function turnOffListening(){
     //Stop Listening

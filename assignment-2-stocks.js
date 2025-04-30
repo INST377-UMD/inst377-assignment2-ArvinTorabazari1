@@ -6,7 +6,6 @@ function loadStockAPI() {
   console.log("Range Selected:", rangeSelected)
   console.log("Stock Ticker", stockSelected)
   const today = new Date();
-      // change thirty with the value from the form 
   const range = today.getTime()-rangeSelected*24*60*60*1000;
       const now = today.getTime();
       return fetch(`https://api.polygon.io/v2/aggs/ticker/${stockSelected}/range/1/day/${range}/${now}?adjusted=true&sort=asc&limit=120&apiKey=8l0cAPG6RzPgX2xiRmk68KSSUWRfOMjI`)
@@ -23,12 +22,9 @@ async function populateChart() {
     const data = await loadStockAPI();
     console.log("Stock Data", data);
 
-
-    // Getting all dates from API 
     const allDates = data.results.map(date => new Date(date.t).toLocaleDateString());
     console.log("dates", allDates);
     
-    // Getting all prices from API
     const allClosingPrices = data.results.map(closingPrice => closingPrice.c);
     console.log("closing price", allClosingPrices);
 
@@ -81,7 +77,6 @@ async function bullOrBear() {
     const tickerItem = document.createElement('td');
     const tickerLink = document.createElement('a');
     tickerLink.href = `https://finance.yahoo.com/quote/${stock.ticker}`;
-    tickerLink.target = "_blank";
     tickerLink.textContent = stock.ticker;
     tickerItem.appendChild(tickerLink);
 

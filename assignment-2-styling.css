@@ -93,6 +93,16 @@ body {
     display: flex;
 }
 
+
+
+.randomDogImages {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+
 /* Annyang Button Styling */
 #button {
     background-color: white;
