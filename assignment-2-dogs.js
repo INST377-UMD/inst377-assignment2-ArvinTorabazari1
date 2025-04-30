@@ -25,9 +25,65 @@ async function loadDogBreeds() {
         button.textContent = breed.attributes.name; 
         console.log("button", button.textContent);
         button.setAttribute("class", "button-1");
+        button.onclick = () => breedInfo(breed);
         breedButtons.appendChild(button)
     })
 }
+
+function breedInfo(breed) {
+    dogBreedName = breed.attributes.name
+    dogBreedDescription = breed.attributes.description
+    dogBreedMax = breed.attributes.life.max
+    dogBreedMin = breed.attributes.life.min
+    document.getElementById('breedInfo').style.display = 'block';
+    document.getElementById('breedName').innerHTML = ` Name: ${dogBreedName}`;
+    document.getElementById('breedDescription').innerHTML = `<strong> Description: ${dogBreedDescription} </strong>`;
+    document.getElementById('breedMinAge').innerHTML = `<strong> Min Age: ${dogBreedMin} </strong>`;
+    document.getElementById('breedMaxAge').innerHTML = `<strong> Max Age: ${dogBreedMax} </strong>`;
+
+}
+
+function turnOnListening() {
+    if (annyang) {
+        // Let's define a command.
+        const commands = {
+          'hello': () => { alert('Hello world!'); 
+            },
+          'change the color to *color':(color) => {
+            document.body.style.backgroundColor = color
+            },
+            'go to *page': (page) => {
+                page = page.toLowerCase();
+  
+                const pages = {
+                    'home':'homepage.html',
+                    'dogs': 'dogs.html',
+                    'stocks': 'stocks.html'
+                };
+  
+                const relocate =pages[page];
+                if (relocate) {
+                    window.location.href = relocate;
+                }
+            }
+              
+            }
+  
+        }
+      
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+      
+        // Start listening.
+        annyang.start();
+  }
+  
+  function turnOffListening(){
+    //Stop Listening
+    if (annyang) {
+        annyang.abort();
+    }
+}  
 
 window.onload = loadDogs; 
 loadDogBreeds();

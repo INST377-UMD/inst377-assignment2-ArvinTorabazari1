@@ -103,6 +103,16 @@ body {
     border-radius: 15px;
 }
 
+#breedInfo {
+  display: none;
+  background-color: aliceblue;
+  color: black;
+  border: 2px solid black;
+  padding: 10px;
+  margin: 40px;
+  width: 95%;
+  height: 25%;
+}
 /* Stock Lookup Fancy Button */
 .button-21 {
   align-items: center;
